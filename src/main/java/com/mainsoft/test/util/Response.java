@@ -9,6 +9,8 @@ public class Response {
 	private String reason;
 	private Map<String, Object> data;
 	
+	public Response() {}
+
 	public Response(int status, String reason) {
 		this.status = status;
 		this.reason = reason;
@@ -21,6 +23,11 @@ public class Response {
 		}
 		
 		this.data.put(key, value);
+	}
+	
+	public Response(ResponseStatusEnum responseStatusEnum) {
+		this.status = responseStatusEnum.getCode();
+		this.reason = responseStatusEnum.getDescription();
 	}
 
 	public int getStatus() {

@@ -4,7 +4,8 @@ public enum ResponseStatusEnum {
 
 	SUCCESS(1,"Request Received"),
 	UNAUTHORIZED(-1,"Authentication Error"),
-	BAD_REQUEST(-8,"Bad Request");
+	BAD_REQUEST(-2,"Bad Request"),
+	NOT_DATA_FOUND(-3,"No Data Found");
 	
 	private int code;
 	private String description;
