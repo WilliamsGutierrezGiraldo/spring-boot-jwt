@@ -1,5 +1,6 @@
 package com.mainsoft.test.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,10 +26,10 @@ public class ProductoServiceImpl implements ProductoService {
 		Response response = new Response();
 		ProductoEntity entity = new ProductoEntity();
 		entity.setNombre(dto.getNombre());
-		entity.setNombre(dto.getNombre());
+		entity.setPrecio(dto.getPrecio());
 		try {
 			response = new Response(ResponseStatusEnum.SUCCESS);
-			response.setDataPair("producto", repository.save(entity));
+			response.setDataPair("producto almacenado exitosamente, id: ", repository.save(entity).getId());
 		} catch (IllegalArgumentException e) {
 			response = new Response(ResponseStatusEnum.BAD_REQUEST);
 		}
@@ -45,7 +46,7 @@ public class ProductoServiceImpl implements ProductoService {
 			entity.get().setPrecio(dto.getPrecio());
 			try {
 				response = new Response(ResponseStatusEnum.SUCCESS);
-				response.setDataPair("producto", repository.save(entity.get()));
+				response.setDataPair("producto actualizado exitosamente, id: ", repository.save(entity.get()).getId());
 			} catch (IllegalArgumentException e) {
 				response = new Response(ResponseStatusEnum.BAD_REQUEST);
 			}
@@ -63,10 +64,11 @@ public class ProductoServiceImpl implements ProductoService {
 		if (entity.isPresent()) {
 			repository.delete(entity.get());
 			response = new Response(ResponseStatusEnum.SUCCESS);
-			response.setDataPair("producto eliminado", entity.get().getId());
+			response.setDataPair("producto eliminado, id: ", entity.get().getId());
 		} else {
 			response = new Response(ResponseStatusEnum.NOT_DATA_FOUND);
 		}
+		
 		return response;
 	}
 
@@ -87,8 +89,17 @@ public class ProductoServiceImpl implements ProductoService {
 	@Override
 	public Response fetchAll() {
 		Response response = new Response();
-		List<ProductoEntity> productos = (List<ProductoEntity>) repository.findAll();
-		if (!CollectionUtils.isEmpty(productos)) {
+		List<ProductoEntity> entidades = (List<ProductoEntity>) repository.findAll();
+		List<ProductoDto> productos = null;
+		if (!CollectionUtils.isEmpty(entidades)) {
+			productos = new ArrayList<>();
+			for (ProductoEntity productoEntity : entidades) {
+				ProductoDto dto = new ProductoDto();
+				dto.setId(productoEntity.getId());
+				dto.setNombre(productoEntity.getNombre());
+				dto.setPrecio(productoEntity.getPrecio());
+				productos.add(dto);
+			}
 			response = new Response(ResponseStatusEnum.SUCCESS);
 			response.setDataPair("productos", productos);
 		} else {
