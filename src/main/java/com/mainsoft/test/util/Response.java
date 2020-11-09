@@ -5,15 +5,15 @@ import java.util.Map;
 
 public class Response {
 	
-	private int status;
-	private String reason;
+	private int code;
+	private String message;
 	private Map<String, Object> data;
 	
 	public Response() {}
 
-	public Response(int status, String reason) {
-		this.status = status;
-		this.reason = reason;
+	public Response(int code, String message) {
+		this.code = code;
+		this.message = message;
 		this.data = new HashMap<>();
 	}
 	
@@ -26,24 +26,24 @@ public class Response {
 	}
 	
 	public Response(ResponseStatusEnum responseStatusEnum) {
-		this.status = responseStatusEnum.getCode();
-		this.reason = responseStatusEnum.getDescription();
+		this.code = responseStatusEnum.getCode();
+		this.message = responseStatusEnum.getDescription();
 	}
 
-	public int getStatus() {
-		return status;
+	public int getCode() {
+		return code;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setCode(int code) {
+		this.code = code;
 	}
 
-	public String getReason() {
-		return reason;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setReason(String reason) {
-		this.reason = reason;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public Map<String, Object> getData() {
